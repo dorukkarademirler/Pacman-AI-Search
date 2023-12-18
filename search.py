@@ -74,10 +74,11 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 
+#IMPLEMENTED RIGHT HERE
+
 def depthFirstSearch(problem: SearchProblem):
     """
     Search the deepest nodes in the search tree first.
-
     Your search algorithm needs to return a list of actions that reaches the
     goal. Make sure to implement a graph search algorithm.
 
@@ -88,57 +89,57 @@ def depthFirstSearch(problem: SearchProblem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    stack = util.Stack()
-    stack.push((problem.getStartState(), []))
-    visited = []
+    stack = util.Stack()  # Using a stack for depth-first search
+    stack.push((problem.getStartState(), []))  # Pushing the initial state and an empty path
+    visited = []  # Keeping track of visited states to avoid cycles
     while not stack.isEmpty():
-        curr, path = stack.pop()
+        curr, path = stack.pop()  # Popping the current state and its path
         if problem.isGoalState(curr):
-            return path
+            return path  # If the goal is reached, return the path
         if curr not in visited:
-            visited.append(curr)
+            visited.append(curr)  # Mark the current state as visited
             successor = problem.getSuccessors(curr)
             for elem in successor:
-                new_path = path + [elem[1]]
-                stack.push((elem[0], new_path))
-    return []
+                new_path = path + [elem[1]]  # Extending the current path with the action
+                stack.push((elem[0], new_path))  # Pushing the successor state and the new path
+    return []  # Return an empty list if no solution is found
 
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
-    queue = util.Queue()
-    queue.push((problem.getStartState(), []))
-    visited = []
+    queue = util.Queue()  # Using a queue for breadth-first search
+    queue.push((problem.getStartState(), []))  # Pushing the initial state and an empty path
+    visited = []  # Keeping track of visited states to avoid cycles
     while not queue.isEmpty():
-        curr, path = queue.pop()
+        curr, path = queue.pop()  # Dequeuing the current state and its path
         if problem.isGoalState(curr):
-            return path
+            return path  # If the goal is reached, return the path
         if curr not in visited:
-            visited.append(curr)
+            visited.append(curr)  # Mark the current state as visited
             successors = problem.getSuccessors(curr)
             for elem in successors:
-                new_path = path + [elem[1]]
-                queue.push((elem[0], new_path))
-    return []
+                new_path = path + [elem[1]]  # Extending the current path with the action
+                queue.push((elem[0], new_path))  # Enqueuing the successor state and the new path
+    return []  # Return an empty list if no solution is found
 
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
-    queue = util.PriorityQueue()
-    queue.push((problem.getStartState(), []), 0)
-    visited = []
+    queue = util.PriorityQueue()  # Using a priority queue for uniform cost search
+    queue.push((problem.getStartState(), []), 0)  # Pushing the initial state, an empty path, and cost 0
+    visited = []  # Keeping track of visited states to avoid cycles
     while not queue.isEmpty():
-        curr, curr_path = queue.pop()
+        curr, curr_path = queue.pop()  # Popping the current state and its path
         if problem.isGoalState(curr):
-            return curr_path
+            return curr_path  # If the goal is reached, return the path
         if curr not in visited:
-            visited.append(curr)
+            visited.append(curr)  # Mark the current state as visited
             successor = problem.getSuccessors(curr)
             for elem in successor:
-                path = curr_path + [elem[1]]
+                path = curr_path + [elem[1]]  # Extending the current path with the action
                 cost = problem.getCostOfActions(path)
-                queue.push((elem[0], path), cost)
-    return []
+                queue.push((elem[0], path), cost)  # Pushing the successor state and the new path with updated cost
+    return []  # Return an empty list if no solution is found
 
 
 def nullHeuristic(state, problem=None):
@@ -151,22 +152,21 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    queue = util.PriorityQueue()
-    queue.push((problem.getStartState(), []), 0)
+    queue = util.PriorityQueue()  # Using a priority queue for A* search
+    queue.push((problem.getStartState(), []), 0)  # Pushing the initial state, an empty path, and cost 0
     visited = list()
     while not queue.isEmpty():
-        curr, curr_path = queue.pop()
+        curr, curr_path = queue.pop()  # Popping the current state and its path
         if problem.isGoalState(curr):
-            return curr_path
+            return curr_path  # If the goal is reached, return the path
         if curr not in visited:
-            visited.append(curr)
+            visited.append(curr)  # Mark the current state as visited
             successor = problem.getSuccessors(curr)
             for elem in successor:
-                path = curr_path + [elem[1]]
+                path = curr_path + [elem[1]]  # Extending the current path with the action
                 cost = problem.getCostOfActions(path) + heuristic(elem[0], problem)
-                queue.push((elem[0], path), cost)
-    return []
-
+                queue.push((elem[0], path), cost)  # Pushing the successor state and the new path with updated cost
+    return []  # Return an empty list if no solution is found
 
 
 # Abbreviations
